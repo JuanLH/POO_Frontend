@@ -5,6 +5,7 @@
  */
 package form;
 
+import clases.Categoria;
 import clases.Producto;
 import clases.Respuesta;
 import client.cliente_producto;
@@ -273,6 +274,7 @@ public class Mnt_Producto extends javax.swing.JDialog {
     private void btnBuscarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCategoriaActionPerformed
         // TODO add your handling code here:
         new frm_buscar_categoria(this).setVisible(true);
+        txtIDCategoria.setText(Integer.toString(Categoria.categoria.getId()));
     }//GEN-LAST:event_btnBuscarCategoriaActionPerformed
 
     /**
