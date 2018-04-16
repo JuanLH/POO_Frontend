@@ -12,6 +12,8 @@ package clases;
 public class Categoria {
     int id;
     String descripcion;
+    
+    public static Categoria categoria = new Categoria();
 
     public int getId() {
         return id;

@@ -40,31 +40,36 @@ public class frm_buscar_categoria extends javax.swing.JDialog {
         llenar_tabla();
         
     }
+    
+    public ArrayList<Categoria> traer_data(){
+        ArrayList<Categoria> lista=new ArrayList();
+        try {
+            lista = cliente_categoria.buscar_categoria();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error Conectando al servidor \n",
+                    "Informacion", JOptionPane.ERROR_MESSAGE);
+        }
+        return lista;
+    }
 
     public void llenar_tabla(){
-        ArrayList<Categoria> lista = new ArrayList();
-            try {
-                lista = cliente_categoria.buscar_categoria();
-            } catch (IOException ex) {
-                Logger.getLogger(frm_buscar_categoria.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        ArrayList<Categoria> lista = traer_data();
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] col = {"ID","DESCRIPCION"};
+        // ciclo for para agregar cada una de las columnas
+        for (int i = 0; i < col.length; i++) {
+              modelo.addColumn(col[i]);
+        }
 
-            DefaultTableModel modelo = new DefaultTableModel();
-            String[] col = {"ID","DESCRIPCION"};
-            // ciclo for para agregar cada una de las columnas
-            for (int i = 0; i < col.length; i++) {
-                modelo.addColumn(col[i]);
-            }
-
-            int k;
-            for(Categoria c:lista){
-                k=0;
-                Object[] fila = new Object[2];//El tamaño del vector sera la cantidad de columnas de la tabla
-                fila[k++] = (Object)c.getId();
-                fila[k++] = (Object)c.getDescripcion();
-                modelo.addRow(fila);
-            }
-            tb_productos.setModel(modelo);
+        int k;
+        for(Categoria c:lista){
+            k=0;
+            Object[] fila = new Object[2];//El tamaño del vector sera la cantidad de columnas de la tabla
+            fila[k++] = (Object)c.getId();
+            fila[k++] = (Object)c.getDescripcion();
+            modelo.addRow(fila);
+        }
+        tb_categoria.setModel(modelo);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,14 +80,13 @@ public class frm_buscar_categoria extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tb_productos = new javax.swing.JTable();
         btn_salir = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tb_categoria = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jScrollPane1.setViewportView(tb_productos);
 
         btn_salir.setText("SALIR");
         btn_salir.addActionListener(new java.awt.event.ActionListener() {
@@ -94,34 +98,53 @@ public class frm_buscar_categoria extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel2.setText("Buscar Categorias");
 
+        jButton1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jButton1.setText("Elegir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        tb_categoria.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tb_categoria);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_salir))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jLabel2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(126, 126, 126))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(9, 9, 9)
                 .addComponent(jLabel2)
-                .addGap(37, 37, 37)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_salir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_salir)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -132,6 +155,15 @@ public class frm_buscar_categoria extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btn_salirActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Categoria c = new Categoria();
+        c.setId((int)tb_categoria.getModel().getValueAt(tb_categoria.getSelectedRow(), 0));
+        c.setDescripcion((String)tb_categoria.getModel().getValueAt(tb_categoria.getSelectedRow(), 1));
+        Categoria.categoria = c;//Guardando en la variable static para poder buscarla desde el otro form
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,8 +202,9 @@ public class frm_buscar_categoria extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_salir;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tb_productos;
+    private javax.swing.JTable tb_categoria;
     // End of variables declaration//GEN-END:variables
 }

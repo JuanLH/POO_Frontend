@@ -52,7 +52,6 @@ public class frm_buscar_producto extends javax.swing.JDialog {
         btn_buscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_productos = new javax.swing.JTable();
-        btn_salir = new javax.swing.JButton();
         btn_salir1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -68,8 +67,6 @@ public class frm_buscar_producto extends javax.swing.JDialog {
         });
 
         jScrollPane1.setViewportView(tb_productos);
-
-        btn_salir.setText("SALIR");
 
         btn_salir1.setText("ELEGIR");
         btn_salir1.addActionListener(new java.awt.event.ActionListener() {
@@ -97,9 +94,7 @@ public class frm_buscar_producto extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_salir, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btn_salir1, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addComponent(btn_salir1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -114,9 +109,7 @@ public class frm_buscar_producto extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_salir1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(btn_salir)
-                .addContainerGap())
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -213,7 +206,6 @@ public class frm_buscar_producto extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_buscar;
-    private javax.swing.JButton btn_salir;
     private javax.swing.JButton btn_salir1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
