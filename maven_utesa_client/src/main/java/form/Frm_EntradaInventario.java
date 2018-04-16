@@ -84,6 +84,9 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
           txtConcepto.setText("");
           Concepto.concepto = null;
           limpiar_producto();
+          txtSubTotal.setText("");
+          txtTax.setText("");
+          txtTotal.setText("");
           tbInv.setModel(new DefaultTableModel());
       }
 
