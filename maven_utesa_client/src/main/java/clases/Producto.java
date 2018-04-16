@@ -11,15 +11,17 @@ package clases;
  * @author JuanLH
  */
 public class Producto {
-    String descripcion;
-    int id_categoria,referencia;
+    String descripcion,referencia;
+    int id_categoria;
     float precio,costo,existencia,tax;
 
-    public int getReferencia() {
+    public static Producto producto = new Producto();
+    
+    public String getReferencia() {
         return referencia;
     }
 
-    public void setReferencia(int referencia) {
+    public void setReferencia(String referencia) {
         this.referencia = referencia;
     }
 
