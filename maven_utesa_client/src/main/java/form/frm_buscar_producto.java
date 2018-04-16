@@ -129,6 +129,7 @@ public class frm_buscar_producto extends javax.swing.JDialog {
             try {
                 lista = cliente_producto.buscar_producto(lbl_desc.getText());
             } catch (IOException ex) {
+                System.out.println("error -->"+ex.getMessage());
                 Logger.getLogger(frm_buscar_producto.class.getName()).log(Level.SEVERE, null, ex);
             }
             

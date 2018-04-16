@@ -6,32 +6,86 @@
 package form;
 
 import clases.Concepto;
+import clases.Detalle_Entrada;
+import clases.Entrada_Inventario;
 import clases.Producto;
+import clases.Usuario;
+import client.cliente_entrada_inventario;
+import com.google.gson.Gson;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author juanbvila
  */
-public class EntradaInventario extends javax.swing.JDialog {
+public class Frm_EntradaInventario extends javax.swing.JDialog {
 
     /**
      * Creates new form EntradaInventario
      */
-    public EntradaInventario() {
+    DefaultTableModel modelo ;
+    
+    public Frm_EntradaInventario() {
         initComponents();
     }
     
-     public EntradaInventario(JFrame parent) {
+     public Frm_EntradaInventario(JFrame parent) {
         super(parent,true); 
         initComponents();
+        llenar_columnas();
     }
      
-      public EntradaInventario(JDialog parent) {
+      public Frm_EntradaInventario(JDialog parent) {
         super(parent,true); 
         initComponents();
+        
     }
+      
+      private void llenar_columnas(){
+          modelo = new DefaultTableModel();
+            String[] col = {"REFERENCIA","DESCRIPCION","COSTO","QTY","TOTAL"};
+            // ciclo for para agregar cada una de las columnas
+            for (int i = 0; i < col.length; i++) {
+                modelo.addColumn(col[i]);
+            }
+      }
+      
+      private void sumar_subTotal(){
+           int cant_filas = tbInv.getModel().getRowCount();
+            if( cant_filas > 0){
+                Float acum = 0.0f;
+                for(int x=0;x<cant_filas;x++){
+                    Float total_prod =(Float)tbInv.getModel().getValueAt(x,4);
+                    acum = acum +total_prod;  
+                }
+                txtSubTotal.setText(Float.toString(acum));
+                txtTax.setText("12");
+                float interes = (Float.parseFloat("0."+txtTax.getText()))*acum;
+                txtTotal.setText(Float.toString(interes+acum));
+            }
+      }
+      
+      private void limpiar_producto(){
+          txtReferencia.setText("");
+          txtNomPro.setText("");
+          txtCosto.setText("");
+          txtCantidad.setText("");
+      }
+      private void limpiar_form(){
+          txtConcepto.setText("");
+          Concepto.concepto = null;
+          limpiar_producto();
+          tbInv.setModel(new DefaultTableModel());
+      }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,13 +106,13 @@ public class EntradaInventario extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbInv = new javax.swing.JTable();
         btnSalvar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtSubTotal = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtSubTotal1 = new javax.swing.JTextField();
+        txtTax = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         btnSalir = new javax.swing.JButton();
@@ -81,13 +135,29 @@ public class EntradaInventario extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel4.setText("Cantidad");
 
-        jScrollPane2.setViewportView(jTable1);
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyPressed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(tbInv);
 
         btnSalvar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnNuevo.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel5.setText("SubTotal");
@@ -163,7 +233,7 @@ public class EntradaInventario extends javax.swing.JDialog {
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSubTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTax, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnSalvar)
@@ -207,7 +277,7 @@ public class EntradaInventario extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtSubTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -237,6 +307,81 @@ public class EntradaInventario extends javax.swing.JDialog {
         txtNomPro.setText(Producto.producto.getDescripcion());
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
+        // TODO add your handling code here:
+        int key = evt.getKeyCode();
+        if(key == KeyEvent.VK_ENTER){
+            int indicador = 0;
+            int cant_filas = tbInv.getModel().getRowCount();
+            if( cant_filas > 0){
+                for(int x=0;x<cant_filas;x++){
+                    String ref =(String)tbInv.getModel().getValueAt(x,0);
+                    if(ref.equals(txtReferencia.getText())){
+                        int cant = Integer.parseInt(tbInv.getModel().getValueAt(x,3).toString());
+                        int cant2 = Integer.parseInt(txtCantidad.getText());
+                        float costo = Float.parseFloat(txtCosto.getText());
+                        float total = (cant+cant2)*costo;
+                        tbInv.getModel().setValueAt((cant+cant2), x, 3);
+                        tbInv.getModel().setValueAt(total, x, 4);
+                        indicador = 1;
+                        break;
+                    }
+                }
+            }
+            
+            if(indicador == 0){
+                Object[] fila = new Object[5];//El tamaño del vector sera la cantidad de columnas de la tabla
+                int k=0;
+                fila[k++] = (Object)txtReferencia.getText();
+                fila[k++] = (Object)txtNomPro.getText();
+                fila[k++] = (Object)txtCosto.getText();
+                fila[k++] = (Object)txtCantidad.getText();
+                fila[k++] = (Object)((Float.parseFloat(txtCosto.getText()))*(Float.parseFloat(txtCantidad.getText()))); 
+                modelo.addRow(fila);
+                tbInv.setModel(modelo);
+            }
+            sumar_subTotal();
+            limpiar_producto();
+        }
+        
+        
+    }//GEN-LAST:event_txtCantidadKeyPressed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+        if(!txtConcepto.getText().isEmpty() || tbInv.getModel().getRowCount()>0){
+            Entrada_Inventario ei = new Entrada_Inventario();
+            ei.setId_concepto(Concepto.concepto.getId_concepto());
+            ei.setFecha(new Timestamp(new Date().getTime()));
+            ei.setId_usuario(Usuario.user.getId_usuario());
+            
+            ArrayList<Detalle_Entrada> lista = new ArrayList();
+            int cant_filas = tbInv.getModel().getRowCount();
+            for(int x=0;x<cant_filas;x++){
+                Detalle_Entrada de = new Detalle_Entrada();
+                de.setReferencia(Integer.parseInt(tbInv.getModel().getValueAt(x,0).toString()));
+                de.setCosto((Float.parseFloat(tbInv.getModel().getValueAt(x, 2).toString())));
+                de.setCantidad(Float.parseFloat(tbInv.getModel().getValueAt(x, 3).toString()));
+                lista.add(de);
+            }
+            Gson json = new Gson();
+            String json_ent_inv = json.toJson(ei);
+            String  json_det_ent = json.toJson(lista);
+            try {
+                cliente_entrada_inventario.insertar_entrada_inv(json_ent_inv, json_det_ent);
+                limpiar_form();
+            } catch (IOException ex) {
+                Logger.getLogger(Frm_EntradaInventario.class.getName())
+                        .log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        limpiar_form();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -254,20 +399,21 @@ public class EntradaInventario extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EntradaInventario().setVisible(true);
+                new Frm_EntradaInventario().setVisible(true);
             }
         });
     }
@@ -287,14 +433,14 @@ public class EntradaInventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbInv;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtConcepto;
     private javax.swing.JTextField txtCosto;
     private javax.swing.JTextField txtNomPro;
     private javax.swing.JTextField txtReferencia;
     private javax.swing.JTextField txtSubTotal;
-    private javax.swing.JTextField txtSubTotal1;
+    private javax.swing.JTextField txtTax;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }
