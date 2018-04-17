@@ -46,7 +46,7 @@ public class cliente_usuario {
         
     }
     public static void logout(String id_usuario) throws IOException{
-        String respuesta = myClient.sentToServerGet(url_base + "logout/"+Usuario.token+"/"+id_usuario+"");
+        String respuesta = myClient.sentToServerGet(url_base + "logout/"+Usuario.token+"");
         System.out.println(respuesta);
     }
 }

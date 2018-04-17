@@ -54,6 +54,7 @@ public class client {
         String respuesta = "";
         try {
             respuesta = webTarget.request(MediaType.TEXT_PLAIN).get(String.class);
+            System.err.println("Respusta del server - "+respuesta);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "*Error Conectando al servidor: \n" + e.getMessage(), "Informacion", JOptionPane.ERROR_MESSAGE);

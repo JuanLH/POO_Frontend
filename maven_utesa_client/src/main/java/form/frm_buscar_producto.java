@@ -5,6 +5,7 @@
  */
 package form;
 
+import clases.Concepto;
 import clases.Producto;
 import client.cliente_producto;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class frm_buscar_producto extends javax.swing.JDialog {
         btn_buscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_productos = new javax.swing.JTable();
-        btn_salir = new javax.swing.JButton();
+        btn_salir1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("BUSCAR PRODUCTO");
@@ -67,7 +68,12 @@ public class frm_buscar_producto extends javax.swing.JDialog {
 
         jScrollPane1.setViewportView(tb_productos);
 
-        btn_salir.setText("SALIR");
+        btn_salir1.setText("ELEGIR");
+        btn_salir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_salir1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,16 +83,18 @@ public class frm_buscar_producto extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbl_desc, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btn_buscar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_salir)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lbl_desc, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(btn_buscar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_salir1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -100,8 +108,8 @@ public class frm_buscar_producto extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_salir)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(btn_salir1)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -114,6 +122,7 @@ public class frm_buscar_producto extends javax.swing.JDialog {
             try {
                 lista = cliente_producto.buscar_producto(lbl_desc.getText());
             } catch (IOException ex) {
+                System.out.println("error -->"+ex.getMessage());
                 Logger.getLogger(frm_buscar_producto.class.getName()).log(Level.SEVERE, null, ex);
             }
             
@@ -145,6 +154,21 @@ public class frm_buscar_producto extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "debe llenar el campo ", "Informacion", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_btn_buscarActionPerformed
+
+    private void btn_salir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salir1ActionPerformed
+        // TODO add your handling code here:
+        Producto p = new Producto();
+        p.setReferencia((String)tb_productos.getModel().getValueAt(tb_productos.getSelectedRow(), 0));
+        p.setDescripcion((String)tb_productos.getModel().getValueAt(tb_productos.getSelectedRow(), 1));
+        p.setId_categoria((int)tb_productos.getModel().getValueAt(tb_productos.getSelectedRow(), 2));
+        p.setPrecio((Float)tb_productos.getModel().getValueAt(tb_productos.getSelectedRow(), 3));
+        p.setCosto((Float)tb_productos.getModel().getValueAt(tb_productos.getSelectedRow(), 4));
+        p.setExistencia((Float)tb_productos.getModel().getValueAt(tb_productos.getSelectedRow(), 5));
+        p.setTax((Float)tb_productos.getModel().getValueAt(tb_productos.getSelectedRow(), 6));
+        
+        Producto.producto = p;//Guardando en la variable static para poder buscarla desde el otro form
+        this.dispose();
+    }//GEN-LAST:event_btn_salir1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,7 +207,7 @@ public class frm_buscar_producto extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_buscar;
-    private javax.swing.JButton btn_salir;
+    private javax.swing.JButton btn_salir1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField lbl_desc;
