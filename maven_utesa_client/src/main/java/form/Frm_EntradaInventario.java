@@ -87,7 +87,9 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
           txtSubTotal.setText("");
           txtTax.setText("");
           txtTotal.setText("");
-          tbInv.setModel(new DefaultTableModel());
+          modelo =new DefaultTableModel();
+          tbInv.setModel(modelo);
+          llenar_columnas();
       }
 
     /**
