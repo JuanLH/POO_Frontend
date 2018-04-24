@@ -12,8 +12,14 @@ import clases.Factura;
 import clases.Producto;
 import clases.Respuesta;
 import clases.Usuario;
+import client.cliente_cliente;
+import client.cliente_detalle_factura;
 import client.cliente_factura;
+import client.cliente_producto;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -22,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -43,11 +50,12 @@ public class mnt_facturacion extends javax.swing.JDialog {
     public mnt_facturacion(JFrame parent) {
         super(parent,true);
         initComponents();
-        llenar_columnas();
-        
         
         llenar_num_factura();
         
+        btnResta.setEnabled(false);
+        modelo = new DefaultTableModel();
+        llenar_columnas();
         
     }
     
@@ -55,7 +63,66 @@ public class mnt_facturacion extends javax.swing.JDialog {
     public mnt_facturacion(JDialog parent) {
         super(parent,true);
         initComponents();
+        
         llenar_columnas();
+        Respuesta resp = new  Respuesta();
+        try {
+            resp = cliente_cliente.buscar_cliente(Factura.factura.getId_cliente());
+        } catch (IOException ex) {
+            Logger.getLogger(mnt_facturacion.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+        Gson json = new Gson();
+        Cliente cliente = json.fromJson(resp.getMensaje(), Cliente.class);
+        txtCliente.setText(cliente.getNombre());
+        txtTelefono.setText(cliente.getTelefono());
+        txtNumFac.setText(""+Factura.factura.getId_factura());
+        lblfecha.setText(Factura.factura.getFecha().toString());
+        if(Factura.factura.getTipo_factura().equals("CREDITO"))
+            cmbTipo.setSelectedIndex(0);
+        else
+            cmbTipo.setSelectedIndex(1);
+        try {
+        resp = cliente_detalle_factura.buscar_detalle_factura(Factura.factura.getId_factura());
+        } catch (IOException ex) {
+        Logger.getLogger(mnt_facturacion.class.getName())
+                .log(Level.SEVERE, null, ex);
+        }
+        ArrayList<Detalle_Factura> lista = new ArrayList();
+        if(resp.getId() > 0){
+            JsonElement jsonE = new JsonParser().parse(resp.getMensaje());
+            JsonArray array = jsonE.getAsJsonArray();
+            for (JsonElement j : array) {
+                Detalle_Factura fac = new Detalle_Factura();
+                fac = json.fromJson(j, Detalle_Factura.class);
+                lista.add(fac);
+            }
+            
+        }
+        
+        llenar_columnas();
+        int k;
+            for(Detalle_Factura p:lista){
+                try {
+                    resp = cliente_producto.buscar_producto(p.getReferencia());
+                } catch (IOException ex) {
+                    Logger.getLogger(mnt_facturacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Producto pro = json.fromJson(resp.getMensaje(), Producto.class);
+                k=0;
+                Object[] fila = new Object[7];//El tamaño del vector sera la cantidad de columnas de la tabla
+                fila[k++] = (Object)p.getReferencia();
+                fila[k++] = (Object)pro.getDescripcion();
+                fila[k++] = (Object)p.getPrecio();
+                fila[k++] = (Object)p.getCantidad();
+                fila[k++] = (Object)p.getTax();
+                fila[k++] = (Object)p.getCosto();
+                fila[k++] = (Object)(p.getPrecio()*p.getCantidad());
+                
+                modelo.addRow(fila);
+            }
+            tb_detallef.setModel(modelo);
+            sumar_total();
     }
     
     private void llenar_num_factura(){
@@ -154,7 +221,7 @@ public class mnt_facturacion extends javax.swing.JDialog {
         txtTotal = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        lblfecha = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -178,6 +245,11 @@ public class mnt_facturacion extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel6.setText("Cantidad");
 
+        tb_detallef.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_detallefMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tb_detallef);
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -224,6 +296,11 @@ public class mnt_facturacion extends javax.swing.JDialog {
 
         btnSalir.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("...");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -235,7 +312,7 @@ public class mnt_facturacion extends javax.swing.JDialog {
         jLabel10.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel10.setText("Tipo de Factura");
 
-        jLabel11.setText("17/04/2018");
+        lblfecha.setText("17/04/2018");
 
         jButton2.setText("...");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -314,7 +391,7 @@ public class mnt_facturacion extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNumFac, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
+                            .addComponent(lblfecha))
                         .addGap(45, 45, 45))))
         );
         layout.setVerticalGroup(
@@ -329,7 +406,7 @@ public class mnt_facturacion extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel11)))
+                            .addComponent(lblfecha)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -423,6 +500,8 @@ public class mnt_facturacion extends javax.swing.JDialog {
 
     private void btnRestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaActionPerformed
         // TODO add your handling code here:
+        modelo.removeRow(tb_detallef.getSelectedRow());
+        btnResta.setEnabled(false);
     }//GEN-LAST:event_btnRestaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -461,20 +540,39 @@ public class mnt_facturacion extends javax.swing.JDialog {
                 lista.add(dt);
             }
             
-            Gson json = new Gson();
-            String json_factura = json.toJson(fac);
-            String  json_det_fac = json.toJson(lista);
-            
-            try {
-                cliente_factura.insertar_factura(json_factura, json_det_fac);
-                limpiar_form();
-            } catch (IOException ex) {
-                Logger.getLogger(mnt_facturacion.class.getName())
+            if(!lista.isEmpty()){
+                Gson json = new Gson();
+                String json_factura = json.toJson(fac);
+                String  json_det_fac = json.toJson(lista);
+                
+                try {
+                    cliente_factura.insertar_factura(json_factura, json_det_fac);
+                    limpiar_form();
+                } catch (IOException ex) {
+                    Logger.getLogger(mnt_facturacion.class.getName())
                         .log(Level.SEVERE, null, ex);
+                }
             }
+            else{
+                JOptionPane.showMessageDialog(this, "No hay items en la factura");
+            }
+            
              
         }
+        else{
+            JOptionPane.showMessageDialog(this, "No hay datos en la factura");
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void tb_detallefMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_detallefMouseClicked
+        // TODO add your handling code here:+
+        btnResta.setEnabled(true);
+    }//GEN-LAST:event_tb_detallefMouseClicked
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -524,7 +622,6 @@ public class mnt_facturacion extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -534,6 +631,7 @@ public class mnt_facturacion extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblfecha;
     private javax.swing.JTable tb_detallef;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCliente;

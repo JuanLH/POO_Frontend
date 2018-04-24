@@ -18,6 +18,8 @@ public class Factura {
     String tipo_factura,id_usuario;
     Timestamp fecha;
     Float monto;
+    
+    public static Factura factura = new Factura();
 
     public int getId_factura() {
         return id_factura;

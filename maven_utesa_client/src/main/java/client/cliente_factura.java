@@ -36,4 +36,12 @@ public class cliente_factura {
         String respuesta = myClient.sentToServerPost(url_base + "insertar_factura", frm);
         return respuesta;
     }
+    
+    public static Respuesta buscar_facturas() throws IOException{
+         String respuesta = myClient.sentToServerGet(url_base + "buscar_factura/"+Usuario.token+"");
+         Respuesta r = Respuesta.FromJson(respuesta);
+         return r;
+    }
+    
+    
 }
