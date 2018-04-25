@@ -76,6 +76,7 @@ public class mnt_recibo extends javax.swing.JDialog {
         txtTotal.setText("");
         txt_pendiente.setText("");
         txtMonto.setText("");
+        txtConcepto.setText("");
         btn_pagar.setEnabled(false);
         
     }

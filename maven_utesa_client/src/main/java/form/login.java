@@ -79,6 +79,11 @@ public class login extends javax.swing.JFrame {
 
         btnSalir.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         lblHeader.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblHeader.setText("IDENTIFIQUESE");
@@ -185,6 +190,11 @@ public class login extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txtPassKeyPressed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments

@@ -246,10 +246,6 @@ public class Mnt_Producto extends javax.swing.JDialog {
         new frm_buscar_producto(this).setVisible(true);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNuevoActionPerformed
-
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -260,6 +256,17 @@ public class Mnt_Producto extends javax.swing.JDialog {
         new frm_buscar_categoria(this).setVisible(true);
         txtIDCategoria.setText(Integer.toString(Categoria.categoria.getId()));
     }//GEN-LAST:event_btnBuscarCategoriaActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        txtDescripcion.setText("");
+        txtIDCategoria.setText("");
+        txtCosto.setText("");
+        txtPrecio.setText("");
+        txtTax.setText("");
+        txtExistencia.setText("");
+        txtTax.setText("");
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     /**
      * @param args the command line arguments

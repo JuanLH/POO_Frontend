@@ -121,6 +121,11 @@ public class buscar_factura extends javax.swing.JDialog {
 
         btnBuscar1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnBuscar1.setText("Salir");
+        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,6 +166,11 @@ public class buscar_factura extends javax.swing.JDialog {
         Factura.factura = fac;
         new mnt_facturacion(this).setVisible(true);
     }//GEN-LAST:event_tb_facturaMouseClicked
+
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
 
     /**
      * @param args the command line arguments

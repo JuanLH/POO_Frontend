@@ -83,6 +83,11 @@ public class frm_buscar_cliente extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tb_cliente);
 
         jButton2.setText("Salir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,6 +182,11 @@ public class frm_buscar_cliente extends javax.swing.JDialog {
         Cliente.cliente = p;//Guardando en la variable static para poder buscarla desde el otro form
         this.dispose();
     }//GEN-LAST:event_tb_clienteMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

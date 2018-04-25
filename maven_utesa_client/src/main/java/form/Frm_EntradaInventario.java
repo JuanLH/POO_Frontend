@@ -180,6 +180,11 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
 
         btnSalir.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("...");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -382,6 +387,11 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
         // TODO add your handling code here:
         limpiar_form();
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
