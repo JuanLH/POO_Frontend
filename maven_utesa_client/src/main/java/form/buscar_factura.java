@@ -68,7 +68,7 @@ public class buscar_factura extends javax.swing.JDialog {
             }
             
             DefaultTableModel modelo = new DefaultTableModel();
-            String[] col = {"ID","TIPO FACTURA","FECHA","ID_CLIENTE","MONTO","ID_USUARIO"};
+            String[] col = {"ID","TIPO FACTURA","FECHA","ID_CLIENTE","MONTO","BALANCE","ID_USUARIO"};
             // ciclo for para agregar cada una de las columnas
             for (int i = 0; i < col.length; i++) {
                 modelo.addColumn(col[i]);
@@ -77,12 +77,13 @@ public class buscar_factura extends javax.swing.JDialog {
             int k;
             for(Factura f:lista){
                 k=0;
-                Object[] fila = new Object[6];//El tamaño del vector sera la cantidad de columnas de la tabla
+                Object[] fila = new Object[7];//El tamaño del vector sera la cantidad de columnas de la tabla
                 fila[k++] = (Object)f.getId_factura();
                 fila[k++] = (Object)f.getTipo_factura();
                 fila[k++] = (Object)f.getFecha();
                 fila[k++] = (Object)f.getId_cliente();
                 fila[k++] = (Object)f.getMonto();
+                fila[k++] = (Object)f.getBalance();
                 fila[k++] = (Object)f.getId_usuario();
                 
                 modelo.addRow(fila);
@@ -146,10 +147,11 @@ public class buscar_factura extends javax.swing.JDialog {
         Factura  fac = new Factura();
         fac.setId_factura(Integer.parseInt(tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 0).toString()));
         fac.setTipo_factura(tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 1).toString());
-        fac.setFecha((Timestamp)tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 2));
+        fac.setFecha(Timestamp.valueOf(tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 2).toString()));
         fac.setId_cliente(Integer.parseInt(tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 3).toString()));
         fac.setMonto((Float)tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 4));
-        fac.setId_usuario((String)tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 5));
+        fac.setBalance((Float)tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 5));
+        fac.setId_usuario((String)tb_factura.getModel().getValueAt(tb_factura.getSelectedRow(), 6));
         Factura.factura = fac;
         new mnt_facturacion(this).setVisible(true);
     }//GEN-LAST:event_tb_facturaMouseClicked

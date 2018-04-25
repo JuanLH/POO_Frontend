@@ -43,5 +43,17 @@ public class cliente_factura {
          return r;
     }
     
+    public static Respuesta buscar_facturas(int id_cliente) throws IOException{
+         String respuesta = myClient.sentToServerGet(url_base + "buscar_factura/"+Usuario.token+"/"+id_cliente+"");
+         Respuesta r = Respuesta.FromJson(respuesta);
+         return r;
+    }    
+    
+    public static Respuesta buscar_facturas_forRecibo(int id_cliente) throws IOException{
+         String respuesta = myClient.sentToServerGet(url_base + "buscar_factura_for_recibo/"+Usuario.token+"/"+id_cliente+"");
+         Respuesta r = Respuesta.FromJson(respuesta);
+         return r;
+    }   
+    
     
 }

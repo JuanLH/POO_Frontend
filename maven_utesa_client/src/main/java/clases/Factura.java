@@ -17,7 +17,15 @@ public class Factura {
     int id_factura,id_cliente;
     String tipo_factura,id_usuario;
     Timestamp fecha;
-    Float monto;
+    Float monto,balance;
+
+    public Float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Float balance) {
+        this.balance = balance;
+    }
     
     public static Factura factura = new Factura();
 

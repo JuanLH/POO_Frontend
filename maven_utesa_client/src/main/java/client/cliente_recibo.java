@@ -44,6 +44,7 @@ public class cliente_recibo {
         frm.param("p5", rec.getId_usuario());
         
         String respuesta = myClient.sentToServerPost(url_base + "insertar_recibo", frm);
+        System.out.println("Respuesta recibo ->"+respuesta);
         return Respuesta.FromJson(respuesta);
     }
 }
