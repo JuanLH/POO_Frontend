@@ -7,7 +7,9 @@ package form;
 
 import clases.Cliente;
 import clases.Respuesta;
+import clases.Utilidades;
 import client.cliente_cliente;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,16 +28,20 @@ public class mnt_cliente extends javax.swing.JDialog {
      */
     public mnt_cliente() {
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     
     public mnt_cliente(JFrame parent){
         super(parent,true);
         initComponents();
+        this.getContentPane().setBackground(Color.ORANGE);
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     
     public mnt_cliente(JDialog parent){
         super(parent,true);
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
 
     /**

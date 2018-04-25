@@ -8,12 +8,14 @@ package form;
 import clases.Cliente;
 import clases.Factura;
 import clases.Respuesta;
+import clases.Utilidades;
 import client.cliente_cliente;
 import client.cliente_factura;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import java.awt.Color;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -35,17 +37,21 @@ public class buscar_factura extends javax.swing.JDialog {
     public buscar_factura() {
         initComponents();
         llenar_tabla();
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     
     public buscar_factura(JDialog parent) {
         super(parent,true);
         initComponents();
         llenar_tabla();
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     public buscar_factura(JFrame parent) {
         super(parent,true);
         initComponents();
+        this.getContentPane().setBackground(Color.ORANGE);
         llenar_tabla();
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     
     private void llenar_tabla()

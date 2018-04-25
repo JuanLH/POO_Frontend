@@ -7,8 +7,10 @@ package form;
 
 import clases.Cliente;
 import clases.Producto;
+import clases.Utilidades;
 import client.cliente_cliente;
 import client.cliente_producto;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -29,16 +31,21 @@ public class frm_buscar_cliente extends javax.swing.JDialog {
      */
     public frm_buscar_cliente() {
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     
     public frm_buscar_cliente(JDialog parent){
         super(parent,true);
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     
     public frm_buscar_cliente(JFrame parent){
         super(parent,true);
         initComponents();
+        
+        this.getContentPane().setBackground(Color.ORANGE);
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
 
     /**

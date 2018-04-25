@@ -7,7 +7,9 @@ package form;
 
 import clases.Concepto;
 import clases.Producto;
+import clases.Utilidades;
 import client.cliente_concepto;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,18 +32,24 @@ public class BuscarConcepto extends javax.swing.JDialog {
     
     public BuscarConcepto() {
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
         llenar_tabla();
+        
     }
     
     public BuscarConcepto(JFrame parent){
         super(parent,true);
         initComponents();
+        this.getContentPane().setBackground(Color.ORANGE);
         llenar_tabla();
+        this.setLocation(Utilidades.getScreenCenter(this));
+        
     }
     
     public BuscarConcepto(JDialog parent){
         super(parent,true);
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
         llenar_tabla();
     }
     
@@ -92,7 +100,7 @@ public class BuscarConcepto extends javax.swing.JDialog {
         btnElegir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscar Concepto");
+        setTitle("BUSCAR CONCEPTO");
 
         tbConcepto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

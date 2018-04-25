@@ -46,7 +46,7 @@ public class cliente_concepto {
         return lista;
     }
     
-    public static String insertar_producto(Concepto c) throws IOException{
+    public static String insertar_concepto(Concepto c) throws IOException{
         Form frm = new Form();
         frm.param("token", Usuario.token);
         frm.param("p1", c.getDescripcion());

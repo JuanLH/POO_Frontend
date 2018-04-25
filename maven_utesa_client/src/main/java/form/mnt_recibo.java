@@ -11,6 +11,7 @@ import clases.Factura;
 import clases.Recibo;
 import clases.Respuesta;
 import clases.Usuario;
+import clases.Utilidades;
 import client.cliente_detalle_pago;
 import client.cliente_factura;
 import client.cliente_recibo;
@@ -18,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +46,7 @@ public class mnt_recibo extends javax.swing.JDialog {
     
     public mnt_recibo() {
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
         modelo = new DefaultTableModel();
         llenar_columnas();
     }
@@ -49,6 +54,7 @@ public class mnt_recibo extends javax.swing.JDialog {
     public mnt_recibo(JDialog parent) {
         super(parent,true);
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
         modelo = new DefaultTableModel();
         llenar_columnas();
     }
@@ -56,6 +62,8 @@ public class mnt_recibo extends javax.swing.JDialog {
     public mnt_recibo(JFrame parent) {
         super(parent,true);
         initComponents();
+        this.getContentPane().setBackground(Color.ORANGE);
+        this.setLocation(Utilidades.getScreenCenter(this));
         modelo = new DefaultTableModel();
         llenar_columnas();
     }
@@ -184,6 +192,15 @@ public class mnt_recibo extends javax.swing.JDialog {
         jLabel3.setText("Balance Pendiente:");
 
         txt_pendiente.setEnabled(false);
+
+        txtMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMontoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMontoKeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel4.setText("Monto:");
@@ -377,6 +394,13 @@ public class mnt_recibo extends javax.swing.JDialog {
 
     private void btn_pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pagarActionPerformed
         // TODO add your handling code here:
+        
+        float pendiente = Float.parseFloat(txt_pendiente.getText());
+        float p = Float.parseFloat(txtMonto.getText());
+        if(p>pendiente){
+            JOptionPane.showMessageDialog(this, "El pago no puede ser mayor que el monto pendiente");
+            return;
+        }    
         if(!txtMonto.getText().isEmpty()){
             tb_factura.setValueAt(txtMonto.getText(),tb_factura.getSelectedRow(), 4);
             float acum = 0;
@@ -463,6 +487,18 @@ public class mnt_recibo extends javax.swing.JDialog {
     private void btn_pagar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pagar3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_pagar3ActionPerformed
+
+    private void txtMontoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyPressed
+        // TODO add your handling code here:
+        
+       
+       
+    }//GEN-LAST:event_txtMontoKeyPressed
+
+    private void txtMontoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtMontoKeyTyped
 
     /**
      * @param args the command line arguments

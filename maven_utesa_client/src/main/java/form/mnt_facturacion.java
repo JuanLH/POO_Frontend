@@ -12,6 +12,7 @@ import clases.Factura;
 import clases.Producto;
 import clases.Respuesta;
 import clases.Usuario;
+import clases.Utilidades;
 import client.cliente_cliente;
 import client.cliente_detalle_factura;
 import client.cliente_factura;
@@ -20,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import java.awt.Color;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -44,13 +46,15 @@ public class mnt_facturacion extends javax.swing.JDialog {
     
     public mnt_facturacion() {
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
         llenar_columnas();
     }
     
     public mnt_facturacion(JFrame parent) {
         super(parent,true);
         initComponents();
-        
+        this.getContentPane().setBackground(Color.ORANGE);
+        this.setLocation(Utilidades.getScreenCenter(this));
         llenar_num_factura();
         
         btnResta.setEnabled(false);
@@ -63,7 +67,7 @@ public class mnt_facturacion extends javax.swing.JDialog {
     public mnt_facturacion(JDialog parent) {
         super(parent,true);
         initComponents();
-        
+        this.setLocation(Utilidades.getScreenCenter(this));
         llenar_columnas();
         Respuesta resp = new  Respuesta();
         try {

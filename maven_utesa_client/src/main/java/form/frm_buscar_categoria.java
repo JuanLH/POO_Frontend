@@ -6,7 +6,9 @@
 package form;
 
 import clases.Categoria;
+import clases.Utilidades;
 import client.cliente_categoria;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -27,16 +29,20 @@ public class frm_buscar_categoria extends javax.swing.JDialog {
      */
     public frm_buscar_categoria() {
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     
     public frm_buscar_categoria(JFrame parent){
         super(parent,true);
         initComponents();
+        this.getContentPane().setBackground(Color.ORANGE);
+        this.setLocation(Utilidades.getScreenCenter(this));
     }
     
     public frm_buscar_categoria(JDialog parent){
         super(parent,true);
         initComponents();
+        this.setLocation(Utilidades.getScreenCenter(this));
         llenar_tabla();
         
     }
