@@ -483,10 +483,12 @@ public class mnt_recibo extends javax.swing.JDialog {
 
     private void btn_pagar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pagar2ActionPerformed
         // TODO add your handling code here:
+        limpiar_form();
     }//GEN-LAST:event_btn_pagar2ActionPerformed
 
     private void btn_pagar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pagar3ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btn_pagar3ActionPerformed
 
     private void txtMontoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyPressed
