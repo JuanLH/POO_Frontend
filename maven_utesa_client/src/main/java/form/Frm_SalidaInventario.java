@@ -6,11 +6,12 @@
 package form;
 
 import clases.Concepto;
-import clases.Detalle_Entrada;
-import clases.Entrada_Inventario;
+import clases.Detalle_Salida;
 import clases.Producto;
+import clases.Respuesta;
+import clases.Salida_Inventario;
 import clases.Usuario;
-import client.cliente_entrada_inventario;
+import client.cliente_salida_inventario;
 import com.google.gson.Gson;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -21,36 +22,36 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author juanbvila
  */
-public class Frm_EntradaInventario extends javax.swing.JDialog {
+public class Frm_SalidaInventario extends javax.swing.JDialog {
 
     /**
-     * Creates new form EntradaInventario
+     * Creates new form Frm_SalidaInventario
      */
     DefaultTableModel modelo ;
     
-    public Frm_EntradaInventario() {
+    public Frm_SalidaInventario() {
         initComponents();
     }
     
-     public Frm_EntradaInventario(JFrame parent) {
-        super(parent,true); 
+    public Frm_SalidaInventario(JFrame parent){
+        super(parent,true);
         initComponents();
         llenar_columnas();
     }
-     
-      public Frm_EntradaInventario(JDialog parent) {
-        super(parent,true); 
+    
+    public Frm_SalidaInventario(JDialog parent){
+        super(parent,true);
         initComponents();
-        
     }
-      
-      private void llenar_columnas(){
+    
+          private void llenar_columnas(){
           modelo = new DefaultTableModel();
             String[] col = {"REFERENCIA","DESCRIPCION","COSTO","QTY","TOTAL"};
             // ciclo for para agregar cada una de las columnas
@@ -58,8 +59,9 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
                 modelo.addColumn(col[i]);
             }
       }
-      
-      private void sumar_subTotal(){
+          
+          
+           private void sumar_subTotal(){
            int cant_filas = tbInv.getModel().getRowCount();
             if( cant_filas > 0){
                 Float acum = 0.0f;
@@ -73,24 +75,25 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
                 txtTotal.setText(Float.toString(interes+acum));
             }
       }
-      
-      private void limpiar_producto(){
+           
+          private void limpiar_producto(){
           txtReferencia.setText("");
           txtNomPro.setText("");
           txtCosto.setText("");
           txtCantidad.setText("");
       }
-      private void limpiar_form(){
+          
+          private void limpiar_form(){
           txtConcepto.setText("");
           Concepto.concepto = null;
           limpiar_producto();
           txtSubTotal.setText("");
           txtTax.setText("");
           txtTotal.setText("");
-          modelo =new DefaultTableModel();
+          modelo = new DefaultTableModel();
           tbInv.setModel(modelo);
-          llenar_columnas();
       }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,6 +104,19 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtCantidad = new javax.swing.JTextField();
+        btnSalir = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbInv = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtSubTotal = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtTax = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txtConcepto = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -108,37 +124,12 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
         txtNomPro = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtCosto = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtCantidad = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbInv = new javax.swing.JTable();
-        btnSalvar = new javax.swing.JButton();
-        btnNuevo = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        txtSubTotal = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtTax = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
-        btnSalir = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("ENTRADA INVENTARIO");
-
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel1.setText("Concepto:");
-
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel2.setText("Referencia");
-
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel3.setText("Costo");
-
-        jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel4.setText("Cantidad");
+        setTitle("SALIDA INVENTARIO");
 
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -146,13 +137,38 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
             }
         });
 
+        btnSalir.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
         jScrollPane2.setViewportView(tbInv);
+
+        jLabel8.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel8.setText("Salida Inventario");
+
+        jButton1.setText("...");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("...");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -170,28 +186,20 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel6.setText("Tax");
 
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jLabel1.setText("Concepto:");
+
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jLabel2.setText("Referencia");
+
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jLabel3.setText("Costo");
+
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel7.setText("Total");
 
-        btnSalir.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        btnSalir.setText("Salir");
-
-        jLabel8.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        jLabel8.setText("Entrada Inventario");
-
-        jButton1.setText("...");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("...");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jLabel4.setText("Cantidad");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,65 +207,64 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(btnSalvar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnNuevo)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addGap(12, 12, 12)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtTax, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnSalir)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jButton1))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtNomPro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton2)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNomPro, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton1))
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTax, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnSalvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnNuevo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addGap(217, 217, 217))
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(272, 272, 272)
+                        .addComponent(jLabel8)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
@@ -273,9 +280,9 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -298,20 +305,6 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        new BuscarConcepto(this).setVisible(true);
-        txtConcepto.setText(Concepto.concepto.getDescripcion());
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        new frm_buscar_producto(this).setVisible(true);
-        txtCosto.setText(Float.toString(Producto.producto.getCosto()));
-        txtReferencia.setText(Producto.producto.getReferencia());
-        txtNomPro.setText(Producto.producto.getDescripcion());
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
         // TODO add your handling code here:
         int key = evt.getKeyCode();
@@ -333,7 +326,7 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
                     }
                 }
             }
-            
+
             if(indicador == 0){
                 Object[] fila = new Object[5];//El tamaño del vector sera la cantidad de columnas de la tabla
                 int k=0;
@@ -341,51 +334,73 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
                 fila[k++] = (Object)txtNomPro.getText();
                 fila[k++] = (Object)txtCosto.getText();
                 fila[k++] = (Object)txtCantidad.getText();
-                fila[k++] = (Object)((Float.parseFloat(txtCosto.getText()))*(Float.parseFloat(txtCantidad.getText()))); 
+                fila[k++] = (Object)((Float.parseFloat(txtCosto.getText()))*(Float.parseFloat(txtCantidad.getText())));
                 modelo.addRow(fila);
                 tbInv.setModel(modelo);
             }
             sumar_subTotal();
             limpiar_producto();
         }
-        
-        
+
     }//GEN-LAST:event_txtCantidadKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new BuscarConcepto(this).setVisible(true);
+        txtConcepto.setText(Concepto.concepto.getDescripcion());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         if(!txtConcepto.getText().isEmpty() || tbInv.getModel().getRowCount()>0){
-            Entrada_Inventario ei = new Entrada_Inventario();
-            ei.setId_concepto(Concepto.concepto.getId_concepto());
-            ei.setFecha(new Timestamp(new Date().getTime()));
-            ei.setId_usuario(Usuario.user.getId_usuario());
-            
-            ArrayList<Detalle_Entrada> lista = new ArrayList();
+            Salida_Inventario si = new Salida_Inventario();
+            si.setId_concepto(Concepto.concepto.getId_concepto());
+            si.setFecha(new Timestamp(new Date().getTime()));
+            si.setId_usuario(Usuario.user.getId_usuario());
+
+            ArrayList<Detalle_Salida> lista = new ArrayList();
             int cant_filas = tbInv.getModel().getRowCount();
             for(int x=0;x<cant_filas;x++){
-                Detalle_Entrada de = new Detalle_Entrada();
-                de.setReferencia(Integer.parseInt(tbInv.getModel().getValueAt(x,0).toString()));
-                de.setCosto((Float.parseFloat(tbInv.getModel().getValueAt(x, 2).toString())));
-                de.setCantidad(Float.parseFloat(tbInv.getModel().getValueAt(x, 3).toString()));
-                lista.add(de);
+                Detalle_Salida deSa = new Detalle_Salida();
+                deSa.setReferencia(Integer.parseInt(tbInv.getModel().getValueAt(x,0).toString()));
+                deSa.setCosto((Float.parseFloat(tbInv.getModel().getValueAt(x, 2).toString())));
+                deSa.setCantidad(Float.parseFloat(tbInv.getModel().getValueAt(x, 3).toString()));
+                lista.add(deSa);
             }
             Gson json = new Gson();
-            String json_ent_inv = json.toJson(ei);
+            String json_ent_inv = json.toJson(si);
             String  json_det_ent = json.toJson(lista);
+            System.out.println("Json Detalle ->"+json_det_ent);
             try {
-                cliente_entrada_inventario.insertar_entrada_inv(json_ent_inv, json_det_ent);
+                String resp= cliente_salida_inventario.insertar_salida_inventario(json_ent_inv, json_det_ent);
                 limpiar_form();
+                System.out.println(resp);
+                //Respuesta r = json.fromJson(resp, Respuesta.class);
+                //JOptionPane.showMessageDialog(this,r.getMensaje());
             } catch (IOException ex) {
-                Logger.getLogger(Frm_EntradaInventario.class.getName())
-                        .log(Level.SEVERE, null, ex);
+                Logger.getLogger(Frm_SalidaInventario.class.getName())
+                .log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        new frm_buscar_producto(this).setVisible(true);
+        txtCosto.setText(Float.toString(Producto.producto.getCosto()));
+        txtReferencia.setText(Producto.producto.getReferencia());
+        txtNomPro.setText(Producto.producto.getDescripcion());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
         limpiar_form();
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -404,13 +419,13 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frm_EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_SalidaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frm_EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_SalidaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frm_EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_SalidaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frm_EntradaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_SalidaInventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -418,7 +433,7 @@ public class Frm_EntradaInventario extends javax.swing.JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Frm_EntradaInventario().setVisible(true);
+                new Frm_SalidaInventario().setVisible(true);
             }
         });
     }

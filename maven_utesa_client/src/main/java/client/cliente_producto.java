@@ -43,6 +43,12 @@ public class cliente_producto {
         return lista;
     }
     
+    public static Respuesta buscar_producto(int ref) throws IOException{
+        String respuesta = myClient.sentToServerGet(url_base + "buscar_producto_ref/"+Usuario.token+"/"+ref+"");
+        Respuesta resp = Respuesta.FromJson(respuesta);
+        return resp;
+    }
+    
     public static String insertar_producto(Producto p) throws IOException{
         Form frm = new Form();
         frm.param("token", Usuario.token);
