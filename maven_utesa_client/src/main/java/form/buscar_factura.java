@@ -111,6 +111,7 @@ public class buscar_factura extends javax.swing.JDialog {
         btnBuscar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("BUSCAR FACTURA");
 
         tb_factura.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

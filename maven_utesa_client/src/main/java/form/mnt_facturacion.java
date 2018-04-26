@@ -70,6 +70,7 @@ public class mnt_facturacion extends javax.swing.JDialog {
         this.setLocation(Utilidades.getScreenCenter(this));
         llenar_columnas();
         Respuesta resp = new  Respuesta();
+        btnSalvar.setEnabled(false);
         try {
             resp = cliente_cliente.buscar_cliente(Factura.factura.getId_cliente());
         } catch (IOException ex) {
@@ -580,7 +581,8 @@ public class mnt_facturacion extends javax.swing.JDialog {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
-        limpiar_form();
+        limpiar_form();  
+        btnSalvar.setEnabled(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     /**
